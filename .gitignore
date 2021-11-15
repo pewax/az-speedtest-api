@@ -5,3 +5,4 @@
 # Development configuration
 **/appsettings.Development.json
 **/Properties
+.vscode
