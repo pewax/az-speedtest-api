@@ -33,7 +33,7 @@ namespace SpeedTestApi
             var entityPath = Configuration.GetValue<string>("EventHub:EntityPath");
             services.AddScoped<ISpeedTestEvents, SpeedTestEvents>(cts =>
             {
-                return new SpeedTestEvents(connectionString, entityPath);
+                return new SpeedTestEvents(connectionString);
             });
             services.AddSwaggerGen(c =>
             {

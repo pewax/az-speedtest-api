@@ -12,16 +12,9 @@ namespace SpeedTestApi.Services
     {
         private readonly EventHubProducerClient _client;
 
-        public SpeedTestEvents(string connectionString, string entityPath)
+        public SpeedTestEvents(string connectionString)
         {
-            _client = new EventHubProducerClient(connectionString, entityPath);
-        }
-
-        // Code continues here
-
-        public void Dispose()
-        {
-            _client.CloseAsync();
+            _client = new EventHubProducerClient(connectionString);
         }
 
         public async Task PublishSpeedTest(TestResult speedTest)
@@ -30,6 +23,11 @@ namespace SpeedTestApi.Services
             var data = new EventData(Encoding.UTF8.GetBytes(message));
 
             await _client.SendAsync(new[] { data });
+        }
+
+        public void Dispose()
+        {
+            _client.CloseAsync();
         }
     }
 }
