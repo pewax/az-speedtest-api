@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SpeedTestApi.Services;
 
 namespace SpeedTestApi
 {
@@ -28,6 +29,12 @@ namespace SpeedTestApi
         {
 
             services.AddControllers();
+            var connectionString = Configuration.GetValue<string>("EventHub:ConnectionString");
+            var entityPath = Configuration.GetValue<string>("EventHub:EntityPath");
+            services.AddScoped<ISpeedTestEvents, SpeedTestEvents>(cts =>
+            {
+                return new SpeedTestEvents(connectionString, entityPath);
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SpeedTestApi", Version = "v1" });
